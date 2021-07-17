@@ -4,10 +4,11 @@ Begin VB.Form Form1
    ClientHeight    =   6615
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   11055
+   ClientWidth     =   10455
+   Icon            =   "Form1.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   6615
-   ScaleWidth      =   11055
+   ScaleWidth      =   10455
    StartUpPosition =   3  'Windows-Standard
    Begin VB.CommandButton BtnFont 
       Caption         =   "Font"
@@ -183,9 +184,9 @@ Begin VB.Form Form1
             Strikethrough   =   0   'False
          EndProperty
          Height          =   4920
-         ItemData        =   "Form1.frx":0000
+         ItemData        =   "Form1.frx":1782
          Left            =   0
-         List            =   "Form1.frx":0002
+         List            =   "Form1.frx":1784
          MultiSelect     =   2  'Erweitert
          OLEDragMode     =   1  'Automatisch
          OLEDropMode     =   1  'Manuell
@@ -208,7 +209,7 @@ Begin VB.Form Form1
       Left            =   0
       TabIndex        =   3
       Top             =   960
-      Width           =   9015
+      Width           =   10455
    End
 End
 Attribute VB_Name = "Form1"
