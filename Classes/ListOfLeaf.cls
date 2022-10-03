@@ -19,6 +19,17 @@ Private m_Count As Long
 Private m_UseHashes As Boolean 'wenn UseHashes dann wird die Collection verwendet, sonst wird das Array verwendet
 Private m_Col As Collection
 
+Private Sub Class_Initialize()
+'
+End Sub
+
+Private Sub Class_Terminate()
+    'Debug.Print "Terminate"
+    Erase m_Arr()
+    m_Count = 0
+    Set m_Col = Nothing
+End Sub
+
 Private Sub Init()
     If m_UseHashes Then
         Set m_Col = New Collection
@@ -223,14 +234,3 @@ End Function
 '    IsInCollection = (Err.Number = 0)
 '  On Error GoTo 0
 'End Function
-
-Private Sub Class_Initialize()
-'
-End Sub
-
-Private Sub Class_Terminate()
-    'Debug.Print "Terminate"
-    Erase m_Arr()
-    m_Count = 0
-    Set m_Col = Nothing
-End Sub
