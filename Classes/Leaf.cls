@@ -31,6 +31,10 @@ Friend Sub NewC(other As Leaf)
     Me.Value = other.Value
 End Sub
 
+Friend Function Clone() As Leaf
+    Set Clone = New Leaf: Clone.NewC Me
+End Function
+
 Public Property Get Path() As String
     Path = Twig.Path
 End Property

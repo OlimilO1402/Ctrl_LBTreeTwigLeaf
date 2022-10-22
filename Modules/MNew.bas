@@ -21,10 +21,19 @@ Public Function CTwig(aLeaf As Leaf) As Twig
     Set CTwig = aLeaf
 End Function
 
-Public Function ListOfLeaf(bUseHashes As Boolean) As ListOfLeaf
-    Set ListOfLeaf = New ListOfLeaf
-    ListOfLeaf.New_ bUseHashes
+'Public Function ListOfLeaf(bUseHashes As Boolean) As ListOfLeaf
+'    Set ListOfLeaf = New ListOfLeaf
+'    ListOfLeaf.New_ bUseHashes
+'End Function
+Public Function List(Of_T As EDataType, _
+                     Optional ArrColStrTypList, _
+                     Optional ByVal IsHashed As Boolean = False, _
+                     Optional ByVal Capacity As Long = 32, _
+                     Optional ByVal GrowRate As Single = 2, _
+                     Optional ByVal GrowSize As Long = 0) As List
+    Set List = New List: List.New_ Of_T, ArrColStrTypList, IsHashed, Capacity, GrowRate, GrowSize
 End Function
+
 
 Public Function PtrToObject(ByVal p As Long) As Object
     RtlMoveMemory ByVal VarPtr(PtrToObject), p, 4

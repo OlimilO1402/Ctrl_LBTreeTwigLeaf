@@ -2,7 +2,7 @@ Attribute VB_Name = "MApp"
 Option Explicit
 
 Sub Main()
-    Form1.Show
+    FMain.Show
 End Sub
 
 'einen Baum in String darstellen
@@ -114,7 +114,7 @@ Public Function RandomName(ByVal NameLen As Long) As String
     Next
 End Function
 
-Public Function RandomBetween(minval_incl As Long, maxval_incl As Long) As Long
+Public Function RandomBetween(ByVal minval_incl As Long, ByVal maxval_incl As Long) As Long
     RandomBetween = minval_incl + Rnd * (maxval_incl - minval_incl)
 End Function
 

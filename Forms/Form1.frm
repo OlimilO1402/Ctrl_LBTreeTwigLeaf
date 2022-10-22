@@ -1,5 +1,5 @@
 VERSION 5.00
-Begin VB.Form Form1 
+Begin VB.Form FMain 
    Caption         =   "TreeTwigLeaf, TreeView in a ListBox"
    ClientHeight    =   6615
    ClientLeft      =   60
@@ -212,7 +212,7 @@ Begin VB.Form Form1
       Width           =   10455
    End
 End
-Attribute VB_Name = "Form1"
+Attribute VB_Name = "FMain"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -228,33 +228,6 @@ Attribute mTreeLB.VB_VarHelpID = -1
 Private m_Hist As Collection 'die Historie, wie der user sich im Baum bewegt hat
 Private m_HistIndex As Long
 Private m_HistActionFlag  As Boolean
-
-Private Sub BtnFont_Click()
-    Dim f As StdFont: Set f = LBTree.Font
-    Dim fd As New FontDialog
-    Set fd.Font = f
-    If fd.ShowDialog = vbOK Then
-        Set f = fd.Font
-        Set TBPath.Font = f
-        Set LBTree.Font = f
-        Set TBValue.Font = f
-    End If
-End Sub
-
-'Private Declare Sub InitCommonControls Lib "comctl32.dll" ()
-
-Private Sub BtnOpenAllTwigs_Click()
-    m_Tree.OpenAll
-    UpdateView
-End Sub
-Private Sub BtnCloseAllTwigs_Click()
-    m_Tree.CloseAll
-    UpdateView
-End Sub
-
-Private Sub Form_Initialize()
-'    InitCommonControls
-End Sub
    
 Private Sub Form_Load()
     Set m_Tree = CreateDefaultTree
@@ -266,7 +239,7 @@ Private Sub Form_Load()
     Set mSplit1 = MNew.Splitter(False, Me, Panel1, "mSplit1", LBTree, TBValue)
     mSplit1.LeftTopPos = LBTree.Width
     mSplit1.BorderStyle = bsXPStyl
-
+    Me.Caption = Me.Caption & " v" & App.Major & "." & App.Minor & "." & App.Revision
     'LBTree.ItemData
     UpdateView
 End Sub
@@ -280,6 +253,15 @@ Private Sub Form_Resize()
     If W > 0 And H > 0 Then
         Panel1.Move L, T, W, H
     End If
+End Sub
+
+Private Sub BtnOpenAllTwigs_Click()
+    m_Tree.OpenAll
+    UpdateView
+End Sub
+Private Sub BtnCloseAllTwigs_Click()
+    m_Tree.CloseAll
+    UpdateView
 End Sub
 
 '##############################'    erste Zeile Schalter    '##############################'
@@ -309,14 +291,14 @@ Private Sub BtnInsert_Click()
         If GotNameAndValue("Neuer Zweig", "Zweigname", Name) = vbOK Then
             Dim tr As Twig: Set tr = m_curLeaf.Tree
             i = tr.Twigs.IndexOf(m_curLeaf.Name)
-            tr.InsertTwig MNew.Twig(Name), i
+            tr.InsertTwig i, MNew.Twig(Name)
             UpdateView
         End If
     Else
         If GotNameAndValue("Neue Datei", "Dateiname; TextderDatei", Name, Value) = vbOK Then
             Dim tw As Twig: Set tw = m_curLeaf.Twig
             i = tw.Leafs.IndexOf(m_curLeaf.Name)
-            tw.InsertLeaf MNew.Leaf(Name, Value), i
+            tw.InsertLeaf i, MNew.Leaf(Name, Value)
             UpdateView
         End If
     End If
@@ -501,6 +483,18 @@ Private Sub TBPath_KeyUp(KeyCode As Integer, Shift As Integer)
         tw.IsOpen = True
         UpdateView
         LBTree.Selected(tw.ViewIndex) = True
+    End If
+End Sub
+
+Private Sub BtnFont_Click()
+    Dim f As StdFont: Set f = LBTree.Font
+    Dim fd As New FontDialog
+    Set fd.Font = f
+    If fd.ShowDialog = vbOK Then
+        Set f = fd.Font
+        Set TBPath.Font = f
+        Set LBTree.Font = f
+        Set TBValue.Font = f
     End If
 End Sub
 

@@ -17,8 +17,8 @@ Implements Leaf
 'BAPASIC
 'Beginners an Professionals All-purpose Symbolic Instruction Code
 'VB64free = Visual Basic 6 for free and also Visual Basic 64 is Free
-'VB64U = Visual Basic 6 for You and also Visual Basic 64 is You
-'VB64All = Visual Basic 6 for All and also Visual Basic 64 is for All
+'VB64U    = Visual Basic 6 for You and also Visual Basic 64 is You
+'VB64All  = Visual Basic 6 for All and also Visual Basic 64 is for All
 'Public ViewIndex As Long   ' der Index in der ListBox, ändert sich ständig
 Private Base  As Leaf     ' der twig hat einen Namen und kann auch Content haben
 'Public Tree  As Twig       ' der Baum/Ober-Zweig an dem dieser Zweig dranhängt
@@ -33,14 +33,14 @@ Private m_IsOpen As Boolean
 
 'Public Twigs As ListOfTwig ' alle Zweige darunter
 'Twigs ist jetzt auch ListOfLeaf, weil ListOfLeaf ListOfTwig ersetzen kann
-Public Twigs As ListOfLeaf ' alle Zweige darunter
-Public Leafs As ListOfLeaf
+Public Twigs As List 'Of Leaf ' alle Zweige darunter
+Public Leafs As List 'Of Leaf
 
 
 Private Sub Class_Initialize()
     Set Base = New Leaf
-    Set Twigs = MNew.ListOfLeaf(False) 'ListOfTwig
-    Set Leafs = MNew.ListOfLeaf(False)
+    Set Twigs = MNew.List(vbObject) 'ListOfLeaf(False) 'ListOfTwig
+    Set Leafs = MNew.List(vbObject) 'ListOfLeaf(False)
 End Sub
 
 Friend Sub New_(aName As String)
@@ -94,7 +94,7 @@ End Function
 Public Function Remove(curLeafOrTwig As Leaf) As Leaf
     If Not curLeafOrTwig Is Nothing Then
         Dim nam As String: nam = curLeafOrTwig.Name
-        Dim ll As ListOfLeaf
+        Dim ll As List 'Of Leaf
         If TypeOf curLeafOrTwig Is Twig Then
             Set ll = curLeafOrTwig.Tree.Twigs
         Else
@@ -130,13 +130,14 @@ Public Function AddLeaf(aLeaf As Leaf) As Leaf
     Set AddLeaf.Twig = Me
 End Function
 
-Public Function InsertLeaf(aLeaf As Leaf, Index As Long) As Leaf
-    Set InsertLeaf = Me.Leafs.Insert(aLeaf, Index)
+Public Function InsertLeaf(ByVal Index As Long, aLeaf As Leaf) As Leaf
+    Me.Leafs.Insert Index, aLeaf
+    Set InsertLeaf = aLeaf
     Set InsertLeaf.Twig = Me
 End Function
 
 Public Function AddOrGetLeaf(nam As String) As Leaf
-    If Me.Leafs.Contains(nam) Then
+    If Me.Leafs.ContainsKey(nam) Then
         Set AddOrGetLeaf = Me.LeafByName(nam)
     Else
         Set AddOrGetLeaf = Me.AddLeaf(MNew.Leaf(nam, Empty))
@@ -149,14 +150,15 @@ Public Function AddTwig(aTwig As Twig) As Twig
     Set AddTwig.Tree = Me
 End Function
 
-Public Function InsertTwig(aTwig As Twig, Index As Long) As Twig
-    Set InsertTwig = Me.Twigs.Insert(aTwig, Index)
+Public Function InsertTwig(ByVal Index As Long, aTwig As Twig) As Twig
+    Me.Twigs.Insert Index, aTwig
+    Set InsertTwig = aTwig
     Set InsertTwig.Tree = Me
 End Function
 
 Private Function AddOrGetTwig(nam As String) As Twig
-    If Me.Twigs.Contains(nam) Then
-        Set AddOrGetTwig = Me.Twigs.ItemK(nam)
+    If Me.Twigs.ContainsKey(nam) Then
+        Set AddOrGetTwig = Me.Twigs.ItemByKey(nam)
     Else
         Set AddOrGetTwig = Me.AddTwig(MNew.Twig(nam))
     End If
@@ -296,7 +298,7 @@ Public Property Get TwigByPath(ByVal aPath As String) As Twig
 End Property
 
 Public Property Get LeafByName(aName As String) As Leaf
-    Set Leaf = Leafs.ItemK(aName)
+    Set Leaf = Leafs.ItemByKey(aName)
 End Property
 
 Public Property Get Path() As String
@@ -304,7 +306,7 @@ Public Property Get Path() As String
     If Not Me.Tree Is Nothing Then Path = Me.Tree.Path & Path
 End Property
 
-Public Sub ToListBox(aLB As ListBox, ind As IndentStack, aPath As String)
+Public Sub ToListbox(aLB As ListBox, ind As IndentStack, aPath As String)
     Dim ve As String: ve = IIf(Me.IsOpen, "v-", ">-")
     Me.ViewIndex = aLB.ListCount '- 1
     aLB.AddItem ind.Peek & ve & Me.Name
@@ -315,7 +317,7 @@ Public Sub ToListBox(aLB As ListBox, ind As IndentStack, aPath As String)
             Dim tw As Twig
             For i = 0 To Twigs.Count - 1
                 Set tw = Twigs.Item(i)
-                tw.ToListBox aLB, ind, aPath & Me.Name & "\"
+                tw.ToListbox aLB, ind, aPath & Me.Name & "\"
             Next
             Dim lf As Leaf
             For i = 0 To Leafs.Count - 1
