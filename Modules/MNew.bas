@@ -35,14 +35,6 @@ Public Function List(Of_T As EDataType, _
 End Function
 
 
-Public Function PtrToObject(ByVal p As Long) As Object
-    RtlMoveMemory ByVal VarPtr(PtrToObject), p, 4
-End Function
-
-Public Sub ZeroToObject(obj As Object)
-    RtlZeroMemory ByVal VarPtr(obj), 4
-End Sub
-
 Public Function Splitter(BolMDI As Boolean, MyOwner As Object, MyContainer As Object, Name As String, LeftTop As Control, LeftBot As Control) As Splitter
     Set Splitter = New Splitter
     Splitter.New_ BolMDI, MyOwner, MyContainer, Name, LeftTop, LeftBot

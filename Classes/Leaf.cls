@@ -23,6 +23,10 @@ Friend Sub New_(aName As String, aValue)
     Name = aName
     If IsObject(aValue) Then Set Value = aValue Else Value = aValue
 End Sub
+'Copy to MNew:
+'Public Function Leaf(aName As String, aValue) As Leaf
+'    Set Leaf = New Leaf: Leaf.New_ aName, aValue
+'End Function
 
 Friend Sub NewC(other As Leaf)
     Me.ViewIndex = other.ViewIndex

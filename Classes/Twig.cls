@@ -46,6 +46,10 @@ End Sub
 Friend Sub New_(aName As String)
     Base.Name = aName
 End Sub
+'Copy to MNew:
+'Public Function Twig(aName As String) As Twig
+'    Set Twig = New Twig: Twig.New_ aName
+'End Function
 
 Friend Sub NewC(other As Twig)
     Set Base = other.Clone 'NewC_Leaf(other)

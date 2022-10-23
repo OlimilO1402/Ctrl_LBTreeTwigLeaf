@@ -19,6 +19,10 @@ Public TabSize  As Long
 Friend Sub New_(aTabSize As Long)
     TabSize = aTabSize
 End Sub
+'Copy to MNew:
+'Public Function IndentStack(aTabSize As Long) As IndentStack
+'    Set IndentStack = New IndentStack: IndentStack.New_ aTabSize
+'End Function
 
 Public Sub Clear()
     m_Count = 0

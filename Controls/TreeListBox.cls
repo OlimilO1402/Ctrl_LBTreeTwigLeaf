@@ -23,7 +23,7 @@ Private Type RECTAPI
     Bottom As Long
 End Type
 'Minimum supported client: Windows Vista [desktop apps only]
-Private Declare Function LBItemFromPt Lib "comctl32" (ByVal hwnd As Long, ByVal X As Long, ByVal y As Long, ByVal bAutoScroll As Long) As Long
+Private Declare Function LBItemFromPt Lib "comctl32" (ByVal hwnd As Long, ByVal x As Long, ByVal y As Long, ByVal bAutoScroll As Long) As Long
 'hLB           Type: HWND    A handle to the list box to check.
 'pt            Type: POINT   A POINT structure that contains the screen coordinates to check.
 'bAutoScroll   Type: BOOL    A scroll flag. If this parameter is TRUE and the point is directly above or below the list box, the function scrolls the list box by one line and returns -1. Otherwise, the function does not scroll the list box.
@@ -49,17 +49,21 @@ Friend Sub New_(aLB As ListBox, aTabSize As Long, aRoot As Twig)
     Set m_ind = MNew.IndentStack(aTabSize)
     Set m_Tree = aRoot
 End Sub
+'Copy to MNew:
+'Public Function TreeListBox(aLB As ListBox, aTabSize As Long, aRoot As Twig) As TreeListBox
+'    Set TreeListBox = New TreeListBox: TreeListBox.New_ aLB, aTabSize, aRoot
+'End Function
 
 Private Sub Class_Initialize()
     '
 End Sub
 
 Private Sub mLBTree_Click()
-    Dim obj As Object: Set obj = PtrToObject(mLBTree.ItemData(mLBTree.ListIndex))
+    Dim obj As Object: Set obj = MPtr.PtrToObject(mLBTree.ItemData(mLBTree.ListIndex))
     If Not obj Is Nothing Then
         Set m_Selection = obj
     End If
-    ZeroToObject obj
+    ZeroObject obj
     RaiseEvent Click
 End Sub
 
@@ -80,7 +84,7 @@ Private Sub mLBTree_DblClick()
     Dim s1 As String: s1 = Left(s, 1)
     If s1 = ">" Or s1 = "v" Then
         
-        Dim obj As Object: Set obj = PtrToObject(mLBTree.ItemData(mLBTree.ListIndex))
+        Dim obj As Object: Set obj = MPtr.PtrToObject(mLBTree.ItemData(mLBTree.ListIndex))
         
         If Not obj Is Nothing Then
             If TypeOf obj Is Twig Then
@@ -92,7 +96,7 @@ Private Sub mLBTree_DblClick()
                 'bei Leaf nix machen
             End If
         End If
-        ZeroToObject obj
+        ZeroObject obj
     Else
         
     End If
@@ -120,7 +124,7 @@ Public Sub Render()
     mLBTree.Clear
     'Hja Mist, der Indentstack muss auch hier rein, haja nadürlisch,
     '
-    m_Tree.ToListBox mLBTree, m_ind, ""
+    m_Tree.ToListbox mLBTree, m_ind, ""
     If i < 0 Then i = 0
     If mLBTree.ListCount - 1 < i Then i = mLBTree.ListCount - 1
     If 0 < botIndex And botIndex < mLBTree.ListCount Then
@@ -237,7 +241,7 @@ End Sub
 '            'Set k = Nothing
 '        End If
 '    End If
-'    ZeroToObject obj
+'    ZeroObject obj
 '    'Debug.Print "RaiseEvent Click"
 '    RaiseEvent Click
 'Elemente anschauen
@@ -277,7 +281,7 @@ End Sub
 '            'Set k = Nothing
 '        End If
 '    End If
-'    ZeroToObject obj
+'    ZeroObject obj
     'RaiseEvent Click
 'End Sub
 
@@ -344,7 +348,7 @@ Private Sub mLBTree_OLEStartDrag(data As DataObject, AllowedEffects As Long)
     e = vbDropEffectCopy Or vbDropEffectMove 'Or vbDropEffectScroll 'Scroll wird hier nicht unterstützt
     AllowedEffects = e
 End Sub
-Private Sub mLBTree_OLEDragOver(data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, y As Single, State As Integer)
+Private Sub mLBTree_OLEDragOver(data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single, State As Integer)
 'Private Sub object_OLEDragOver(data As DataObject, effect As Long, button As Integer, shift As Integer, x As Single, y As Single, state As Integer)
 '
 'The OLEDragOver event syntax has these parts:
@@ -419,7 +423,7 @@ Private Sub LBTree_OLEGiveFeedback(Effect As Long, DefaultCursors As Boolean)
     'False = do not use default cursor. Mouse cursor must be set with the MousePointer property of the Screen object.
 End Sub
 
-Private Sub LBTree_OLEDragDrop(data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, y As Single)
+Private Sub LBTree_OLEDragDrop(data As DataObject, Effect As Long, Button As Integer, Shift As Integer, x As Single, y As Single)
     'If data.GetFormat(vbCFFiles) Then Debug.Print "vbCfFiles"
     If data.GetFormat(vbCFText) Then
         Dim s As String: s = data.GetData(vbCFText)
