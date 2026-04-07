@@ -67,6 +67,10 @@ Private Sub mLBTree_Click()
     RaiseEvent Click
 End Sub
 
+Public Property Get Root() As Twig
+    Set Root = m_Tree
+End Property
+
 Public Property Get Selection() As Leaf
     Set Selection = m_Selection
 End Property
