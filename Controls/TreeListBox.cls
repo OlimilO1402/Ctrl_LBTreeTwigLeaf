@@ -23,13 +23,13 @@ Private Type RECTAPI
     Bottom As Long
 End Type
 'Minimum supported client: Windows Vista [desktop apps only]
-Private Declare Function LBItemFromPt Lib "comctl32" (ByVal hwnd As Long, ByVal x As Long, ByVal y As Long, ByVal bAutoScroll As Long) As Long
+Private Declare Function LBItemFromPt Lib "comctl32" (ByVal hwnd As LongPtr, ByVal x As Long, ByVal y As Long, ByVal bAutoScroll As Long) As Long
 'hLB           Type: HWND    A handle to the list box to check.
 'pt            Type: POINT   A POINT structure that contains the screen coordinates to check.
 'bAutoScroll   Type: BOOL    A scroll flag. If this parameter is TRUE and the point is directly above or below the list box, the function scrolls the list box by one line and returns -1. Otherwise, the function does not scroll the list box.
 'Return value  Type: int     Returns the item identifier if the point is over a list item, or -1 otherwise.
 
-Private Declare Function GetWindowRect Lib "user32" (ByVal hwnd As Long, lpRect As RECTAPI) As Long
+Private Declare Function GetWindowRect Lib "user32" (ByVal hwnd As LongPtr, lpRect As RECTAPI) As Long
 
 Private m_ind As IndentStack
 Private m_Tree As Twig
