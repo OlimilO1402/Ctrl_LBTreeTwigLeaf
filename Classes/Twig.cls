@@ -20,7 +20,7 @@ Implements Leaf
 'VB64U    = Visual Basic 6 for You and also Visual Basic 64 is You
 'VB64All  = Visual Basic 6 for All and also Visual Basic 64 is for All
 'Public ViewIndex As Long   ' der Index in der ListBox, ändert sich ständig
-Private Base  As Leaf     ' der twig hat einen Namen und kann auch Content haben
+Private base  As Leaf     ' der twig hat einen Namen und kann auch Content haben
 'Public Tree  As Twig       ' der Baum/Ober-Zweig an dem dieser Zweig dranhängt
 'Leaf hat schon:
 'Public ViewIndex As Long
@@ -38,27 +38,27 @@ Public Leafs As List 'Of Leaf
 
 
 Private Sub Class_Initialize()
-    Set Base = New Leaf
-    Set Twigs = MNew.List(vbObject) 'ListOfLeaf(False) 'ListOfTwig
-    Set Leafs = MNew.List(vbObject) 'ListOfLeaf(False)
+    Set base = New Leaf
+    Set Twigs = MNew.List(EDataType.vbObject) 'ListOfLeaf(False) 'ListOfTwig
+    Set Leafs = MNew.List(EDataType.vbObject) 'ListOfLeaf(False)
 End Sub
 
 Friend Sub New_(aName As String)
-    Base.Name = aName
+    base.Name = aName
 End Sub
 'Copy to MNew:
 'Public Function Twig(aName As String) As Twig
 '    Set Twig = New Twig: Twig.New_ aName
 'End Function
 
-Friend Sub NewC(other As Twig)
-    Set Base = other.Clone 'NewC_Leaf(other)
+Friend Sub NewC(Other As Twig)
+    Set base = Other.Clone 'NewC_Leaf(other)
     'Base.ViewIndex = other.ViewIndex
     'Set Base.Tree = other.Tree
     'so und die Listen kopieren
-    m_IsOpen = other.IsOpen
-    Set Twigs = other.Twigs.Clone '(other.Twigs)
-    Set Leafs = other.Leafs.Clone 'NewC_ListOfLeaf(other.Leafs)
+    m_IsOpen = Other.IsOpen
+    Set Twigs = Other.Twigs.Clone '(other.Twigs)
+    Set Leafs = Other.Leafs.Clone 'NewC_ListOfLeaf(other.Leafs)
 End Sub
 
 Friend Function Clone() As Twig
@@ -248,16 +248,16 @@ Public Property Get TwigByPath(ByVal aPath As String) As Twig
                 Set Twig = Me
             Else
                 p = Left(aPath, pos) ' - 1)
-                Dim T As Twig
+                Dim t As Twig
                 Dim i As Long
                 For i = 0 To Twigs.Count - 1
-                    Set T = Twigs.Item(i)
-                    If p = T.Name & "\" Then
+                    Set t = Twigs.Item(i)
+                    If p = t.Name & "\" Then
                         'aPath = Mid(aPath, pos + 1)
-                        If T.Twigs.Count = 0 Then
-                            Set TwigByPath = T
+                        If t.Twigs.Count = 0 Then
+                            Set TwigByPath = t
                         Else
-                            Set TwigByPath = T.Twig(aPath)
+                            Set TwigByPath = t.Twig(aPath)
                             Exit Property
                         End If
                     End If
@@ -270,13 +270,13 @@ Public Property Get TwigByPath(ByVal aPath As String) As Twig
                 Else
                     'jetzt die ganze Meute durchsuchen
                     For i = 0 To Twigs.Count - 1
-                        Set T = Twigs.Item(i)
-                        If p = T.Name & "\" Then
+                        Set t = Twigs.Item(i)
+                        If p = t.Name & "\" Then
                             'aPath = Mid(aPath, pos + 1)
-                            If T.Twigs.Count = 0 Then
-                                Set TwigByPath = T
+                            If t.Twigs.Count = 0 Then
+                                Set TwigByPath = t
                             Else
-                                Set TwigByPath = T.Twig(aPath)
+                                Set TwigByPath = t.Twig(aPath)
                                 Exit Property
                             End If
                         End If
@@ -285,13 +285,13 @@ Public Property Get TwigByPath(ByVal aPath As String) As Twig
             Else
                 'jetzt die ganze Meute durchsuchen
                 For i = 0 To Twigs.Count - 1
-                    Set T = Twigs.Item(i)
-                    If p = T.Name & "\" Then
+                    Set t = Twigs.Item(i)
+                    If p = t.Name & "\" Then
                         'aPath = Mid(aPath, pos + 1)
-                        If T.Twigs.Count = 0 Then
-                            Set TwigByPath = T
+                        If t.Twigs.Count = 0 Then
+                            Set TwigByPath = t
                         Else
-                            Set TwigByPath = T.Twig(aPath)
+                            Set TwigByPath = t.Twig(aPath)
                             Exit Property
                         End If
                     End If
@@ -364,17 +364,17 @@ End Function
 '########################################'    Public properties related to interface Leaf   '########################################'
 'Alle Property Get und Let zur Vereinfachung
 Public Property Get ViewIndex() As Long
-    ViewIndex = Base.ViewIndex
+    ViewIndex = base.ViewIndex
 End Property
 Public Property Let ViewIndex(ByVal aValue As Long)
-    Base.ViewIndex = aValue
+    base.ViewIndex = aValue
 End Property
 
 Public Property Get Tree() As Twig
-    Set Tree = Base.Twig
+    Set Tree = base.Twig
 End Property
 Public Property Set Tree(ByVal aValue As Twig)
-    Set Base.Twig = aValue
+    Set base.Twig = aValue
 End Property
 
 Public Property Get Twig() As Twig
@@ -385,20 +385,20 @@ Public Property Set Twig(aValue As Twig)
 End Property
 
 Public Property Get Name() As String
-    Name = Base.Name
+    Name = base.Name
 End Property
 Public Property Let Name(ByVal aValue As String)
-    Base.Name = aValue
+    base.Name = aValue
 End Property
 
 Public Property Get Value() As Variant
-    Value = Base.Value
+    Value = base.Value
 End Property
 Public Property Let Value(aValue As Variant)
-    Base.Value = aValue
+    base.Value = aValue
 End Property
 Public Property Set Value(aValue)
-    Set Base.Value = aValue
+    Set base.Value = aValue
 End Property
 
 '########################################'    Interface Leaf    '########################################'
@@ -437,7 +437,7 @@ Private Property Get Leaf_ViewIndex() As Long
     Leaf_ViewIndex = Me.ViewIndex
 End Property
 Private Property Let Leaf_ViewIndex(ByVal RHS As Long)
-    Base.ViewIndex = RHS
+    base.ViewIndex = RHS
 End Property
 
 Private Property Get Leaf_Path() As String
